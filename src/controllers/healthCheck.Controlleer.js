@@ -1,4 +1,4 @@
-import { ApiResponse } from "../utils/ApiRespones.js";
+import { ApiResponse } from "../utils/ApiResponses.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 const healtCheck=asyncHandler(async(req,res)=>{
     return res
