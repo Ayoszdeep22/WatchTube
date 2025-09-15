@@ -12,7 +12,7 @@ class ApiErrors extends Error{
 
         }
         else{
-            Error.captureStackTrace(this.this.consstructor)
+            Error.captureStackTrace(this,this.constructor)
         }
 
     }
