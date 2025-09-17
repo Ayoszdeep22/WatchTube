@@ -39,7 +39,7 @@ const UserSchema=new Schema({
      },
      refreshToken:{
         type:String,
-        required:[true,"password is required"]
+        required:[true,"refresh token is required"]
      }
 
 
@@ -48,7 +48,7 @@ const UserSchema=new Schema({
     UserSchema.pre("save",async function(next) {
         if(!this.isModified("password"))return next();
 
-        this.password=bcrypt.hash(this.password,10)
+        this.password = await bcrypt.hash(this.password, 10)
         next();
     })
 // comparing the passwords
@@ -60,7 +60,7 @@ UserSchema.methods.genearateAccessToken=function(){
    return jwt.sign({
         _id:this._id,
         email:this.email,
-        username:this.email,
+        username:this.username,
         },
          process.env.ACCESS_TOKEN_SECRET,
          {expiresIn:process.env.ACCESS_TOKEN_EXPIRES}

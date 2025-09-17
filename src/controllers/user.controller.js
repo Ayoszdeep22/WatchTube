@@ -26,30 +26,26 @@
             throw new ApiErrors(409,"Avatar image is missing");
 
         }
-        let coverumage=""
+        let coverImage;
     if(coverPath){
-            coverumage=await uploadToCloudinary(coverPath)
-
+            coverImage = await uploadToCloudinary(coverPath)
         }
-    const vaatr=await uploadToCloudinary(localPath);
-    const user=await User.create({
+    const avatar = await uploadToCloudinary(localPath);
+    const user = await User.create({
         fullName, 
-        coverumage:coverumage?.url||"",
-        vaatr:vaatr.url,
+        coverImage: coverImage?.url || "",
+        avatar: avatar.url,
         email,
         password,
-        username:username.toLowerCase()
-
-    })
-    const createdUser=await User.findById(user._id).select(
+        username: username.toLowerCase()
+    })  
+    const createdUser = await User.findById(user._id).select(
         "-password -refreshToken"
     )
     if(!createdUser){
-    throw new ApiErrors(409,"Avatar image is missing");
-
-        
+        throw new ApiErrors(500, "Something went wrong while creating user");
     }
-    return res.status(400).json(new ApiResponse(200,createdUser,"user create dsuccesflluy"))
+    return res.status(201).json(new ApiResponse(201, createdUser, "User created successfully"))
 
 
 

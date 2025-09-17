@@ -17,7 +17,7 @@
         
         
     }).catch((err) => {
-        console.log("mognod bd conenction erro");
+        console.log("MongoDB connection error:", err);
         
         
     });
