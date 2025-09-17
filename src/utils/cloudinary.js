@@ -1,6 +1,8 @@
 import { v2 as cloudinary } from 'cloudinary';
 import { log } from 'console';
 import fs from "fs";
+import dotenv from "dotenv";
+dotenv.config();
    // Configuration
     cloudinary.config({ 
         cloud_name:process.env.CLOUDINARY_CLOUD_NAME, 
@@ -19,11 +21,22 @@ import fs from "fs";
             return response;            
             
         } catch (error) {
-            fs.unlinkSync(localfilePath);
-            return null;
-
-
-            
+            console.error("Cloudinary upload error:", error);
+            if (fs.existsSync(localfilePath)) {
+                fs.unlinkSync(localfilePath);
+            }
+            throw new Error(error?.message || "Error uploading file");
         }
     }
-    export {uploadToCloudinary}
+    const deleteFromCloudinary=async(publicId)=>{
+        try {
+           const reqids= await cloudinary.uploader.destroy(publicId);
+           log("file deleted from cloudinary",reqids);
+            
+        } catch (error) {
+            console.error("Cloudinary deletion error:", error);
+            throw new Error(error?.message || "Error deleting file");
+            
+        }
+    }   
+    export {uploadToCloudinary,deleteFromCloudinary}

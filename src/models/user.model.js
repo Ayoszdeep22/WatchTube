@@ -2,6 +2,7 @@
 import mongoose ,{Schema} from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken"
+import { type } from "os";
 const UserSchema=new Schema({
     username:{
         type:String,
@@ -19,6 +20,11 @@ const UserSchema=new Schema({
         lowercase:true,
         trim:true
         
+
+    },
+    fullName:{
+        type:String,
+        required:true,
 
     },
     avatar:{
@@ -39,7 +45,7 @@ const UserSchema=new Schema({
      },
      refreshToken:{
         type:String,
-        required:[true,"refresh token is required"]
+        // required:[true,"refresh token is required"]
      }
 
 
